@@ -1,0 +1,24 @@
+#! /bin/env python
+# encoding: utf-8
+
+top = '.'
+out = 'build'
+
+VERSION = '0.1'
+APPNAME = 'QSubber'
+
+def options(opt):
+    opt.load('compiler_c vala glib2')
+
+def configure(conf):
+    conf.load('compiler_c vala glib2')
+
+    conf.check_cfg(package='gtk+-3.0', uselib_store='GTK3', atleast_version='3.10', mandatory=1, args='--cflags --libs')
+
+    conf.recurse('src')
+
+def build(bld):
+    bld.load('compiler_c vala glib2')
+
+    bld.recurse('src')
+

@@ -1,0 +1,16 @@
+#! /bin/env python
+# encoding: utf-8
+
+def configure(ctx):
+    pass
+
+def build(bld):
+    bld(
+            features         = 'c cprogram glib2',
+            use              = 'GTK3',
+            packages         = 'gtk+-3.0',
+            source           = 'main.vala qsubber-application.vala qsubber-window.vala org.imvictor.qsubber.gresource.xml',
+            target           = 'qsubber',
+            vala_resources   = 'org.imvictor.qsubber.gresource.xml',
+            vala_target_glib = '2.38'
+    )
