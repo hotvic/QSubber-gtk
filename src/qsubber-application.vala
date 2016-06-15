@@ -40,8 +40,7 @@ namespace QSubber {
             create_main_window();
         }
 
-        public override void open(File[] files, string hint)
-        {
+        public override void open(File[] files, string hint) {
             create_main_window();
 
             current_file = files[0];
