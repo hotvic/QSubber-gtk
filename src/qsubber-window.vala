@@ -59,5 +59,20 @@ namespace QSubber {
                 }
             }
         }
+
+        [GtkCallback]
+        public void openButton_clicked_cb() {
+            Gtk.FileChooserDialog chooser = new Gtk.FileChooserDialog("Select Media File",
+                                                                      this, 
+                                                                      Gtk.FileChooserAction.OPEN,
+                                                                      "_Cancel", Gtk.ResponseType.CANCEL,
+                                                                      "_Open", Gtk.ResponseType.ACCEPT);
+
+            if (chooser.run() == Gtk.ResponseType.ACCEPT) {
+                Application.get_default().current_file = chooser.get_file();
+            }
+
+            chooser.close();
+        }
     }
 }

@@ -143,6 +143,7 @@
           <object class="GtkBox">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="spacing">6</property>
             <child>
               <object class="GtkButton" id="downloadButton">
                 <property name="label" translatable="yes">Download Selected</property>
@@ -243,10 +244,11 @@
         <property name="subtitle">Search Subtitles</property>
         <property name="show_close_button">True</property>
         <child>
-          <object class="GtkButton" id="mediaButton">
+          <object class="GtkButton" id="openButton">
             <property name="label">Open</property>
             <property name="can_focus">False</property>
             <property name="receives_default">False</property>
+            <signal name="clicked" handler="openButton_clicked_cb" swapped="no"/>
           </object>
         </child>
       </object>
