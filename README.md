@@ -2,7 +2,7 @@
 OpenSubtitles.org Client for download subtitles written in Vala using Gtk+ toolkit, supporting search by hash,
 detailed search, download, and other features.
 
-*Note: the QSubber-gtk application is just a experiment, for a working application see [QSubber](../QSubber).*
+*Note: the QSubber-gtk application is just a experiment, for a working application see [QSubber](../../../QSubber).*
 
 ## Features
 
