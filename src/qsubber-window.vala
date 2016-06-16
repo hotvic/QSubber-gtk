@@ -39,24 +39,28 @@ namespace QSubber {
         public void current_file_changed(File* file) {
             mediaEntry.text = file->get_path();
 
-            Regex[] exps = {
-                new Regex("([a-zA-Z0-9. ]+)[ -_.]+[Ss]([0-9]{0,2})[Ee]([0-9]{0,2})"),
-                new Regex("([a-zA-Z0-9. ]+)[ -_.]+([0-9]+)[Xx]([0-9]+)"),
-                new Regex("([a-zA-Z0-9. ]+)[ -_.]+([0-9]{1,2})([0-9]{2})")
-            };
+            try {
+                Regex[] exps = {
+                    new Regex("([a-zA-Z0-9. ]+)[ -_.]+[Ss]([0-9]{0,2})[Ee]([0-9]{0,2})"),
+                    new Regex("([a-zA-Z0-9. ]+)[ -_.]+([0-9]+)[Xx]([0-9]+)"),
+                    new Regex("([a-zA-Z0-9. ]+)[ -_.]+([0-9]{1,2})([0-9]{2})")
+                };
 
-            foreach (Regex exp in exps) {
-                string filename = file->get_basename();
+                foreach (Regex exp in exps) {
+                    string filename = file->get_basename();
 
-                if (exp.match(filename)) {
-                    string[] data = exp.split(filename);
+                    if (exp.match(filename)) {
+                        string[] data = exp.split(filename);
 
-                    nameEntry.text = data[1].replace(".", " ");
-                    seasonEntry.text = data[2];
-                    episodeEntry.text = data[3];
+                        nameEntry.text = data[1].replace(".", " ");
+                        seasonEntry.text = data[2];
+                        episodeEntry.text = data[3];
 
-                    break;
+                        break;
+                    }
                 }
+            } catch (RegexError e) {
+                stderr.printf("Failed to build regex due: %s\n", e.message);
             }
         }
 
@@ -73,6 +77,41 @@ namespace QSubber {
             }
 
             chooser.close();
+        }
+
+        [GtkCallback]
+        public void downloadButton_clicked_cb() {
+        
+        }
+
+        [GtkCallback]
+        public void hashButton_clicked_cb() {
+            VariantBuilder search = new VariantBuilder(VariantType.ARRAY);
+
+            search.add("{ss}", "moviehash", "hash");
+
+            Application.get_default().os.search(search);
+        }
+
+        [GtkCallback]
+        public void sizeButton_clicked_cb() {
+        
+        }
+
+        [GtkCallback]
+        public void nameButton_clicked_cb() {
+            VariantBuilder terms = new VariantBuilder(VariantType.ARRAY);
+
+            terms.add("{ss}", "query", nameEntry.text);
+            terms.add("{ss}", "season", seasonEntry.text);
+            terms.add("{ss}", "episode", episodeEntry.text);
+
+            Application.get_default().os.search(terms);
+        }
+
+        [GtkCallback]
+        public void hashSizeButton_clicked_cb() {
+        
         }
     }
 }

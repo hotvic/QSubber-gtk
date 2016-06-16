@@ -151,6 +151,7 @@
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="hexpand">True</property>
+                <signal name="clicked" handler="downloadButton_clicked_cb" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -177,6 +178,7 @@
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="hexpand">True</property>
+                <signal name="clicked" handler="hashButton_clicked_cb" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -192,6 +194,7 @@
                 <property name="receives_default">True</property>
                 <property name="hexpand">True</property>
                 <property name="use_underline">True</property>
+                <signal name="clicked" handler="sizeButton_clicked_cb" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -206,6 +209,7 @@
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="hexpand">True</property>
+                <signal name="clicked" handler="nameButton_clicked_cb" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -220,6 +224,7 @@
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="hexpand">True</property>
+                <signal name="clicked" handler="hashSizeButton_clicked_cb" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>

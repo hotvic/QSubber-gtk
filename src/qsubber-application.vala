@@ -21,6 +21,8 @@ namespace QSubber {
     class Application : Gtk.Application {
         private File _current_file = null;
 
+        public OpenSubtitles os = null;
+
         public File current_file {
             get { return _current_file; }
             set { _current_file = value; current_file_changed(_current_file); }
@@ -30,6 +32,8 @@ namespace QSubber {
 
         public Application() {
             Object(application_id: "org.imvictor.qsubber", flags: GLib.ApplicationFlags.HANDLES_OPEN);
+
+            os = new OpenSubtitles();
         }
 
         public static new Application get_default() {
@@ -38,6 +42,8 @@ namespace QSubber {
 
         public override void activate() {
             create_main_window();
+
+            os.login();
         }
 
         public override void open(File[] files, string hint) {
