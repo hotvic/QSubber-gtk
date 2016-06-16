@@ -53,12 +53,12 @@ namespace QSubber {
             if (!is_logged_in())
                 return;
 
-            terms.add("{ss}", "sublanguageid", "pob");
+            terms.add("{sv}", "sublanguageid", new Variant("s", "pob"));
 
             VariantBuilder args = new VariantBuilder(VariantType.TUPLE);
 
             args.add("s", token);
-            args.add("(@a{ss})", terms.end());
+            args.add("(@a{sv})", terms.end());
 
             try {
                 Soup.Message msg = Soup.XMLRPC.message_new(API_ENDPOINT, "SearchSubtitles", args.end());

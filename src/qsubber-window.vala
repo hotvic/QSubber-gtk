@@ -112,30 +112,57 @@ namespace QSubber {
 
             VariantBuilder search = new VariantBuilder(VariantType.ARRAY);
 
-            search.add("{ss}", "moviehash", Utils.calculate_hash_for_file(Application.get_default().current_file));
+            search.add("{sv}", "moviehash", new Variant("s", Utils.calculate_hash_for_file(Application.get_default().current_file)));
 
             Application.get_default().os.search(search);
         }
 
         [GtkCallback]
         public void sizeButton_clicked_cb() {
-        
+            if (Application.get_default().current_file == null)
+                return;
+
+            try {
+                FileInfo info = Application.get_default().current_file.query_info("*", FileQueryInfoFlags.NONE);
+
+                VariantBuilder search = new VariantBuilder(VariantType.ARRAY);
+
+                search.add("{sv}", "moviebytesize", new Variant("d", (double) info.get_size()));
+
+                Application.get_default().os.search(search);
+            } catch (Error e) {
+                stderr.printf("OpenSubtitles backed: Failed to stat file, reason: %s", e.message);
+            }
         }
 
         [GtkCallback]
         public void nameButton_clicked_cb() {
             VariantBuilder terms = new VariantBuilder(VariantType.ARRAY);
 
-            terms.add("{ss}", "query", nameEntry.text);
-            terms.add("{ss}", "season", seasonEntry.text);
-            terms.add("{ss}", "episode", episodeEntry.text);
+            terms.add("{sv}", "query", new Variant("s", nameEntry.text));
+            terms.add("{sv}", "season", new Variant("s", seasonEntry.text));
+            terms.add("{sv}", "episode", new Variant("s", episodeEntry.text));
 
             Application.get_default().os.search(terms);
         }
 
         [GtkCallback]
         public void hashSizeButton_clicked_cb() {
-        
+            if (Application.get_default().current_file == null)
+                return;
+
+            try {
+                FileInfo info = Application.get_default().current_file.query_info("*", FileQueryInfoFlags.NONE);
+
+                VariantBuilder search = new VariantBuilder(VariantType.ARRAY);
+
+                search.add("{sv}", "moviehash", new Variant("s", Utils.calculate_hash_for_file(Application.get_default().current_file)));
+                search.add("{sv}", "moviebytesize", new Variant("d", (double) info.get_size()));
+
+                Application.get_default().os.search(search);
+            } catch (Error e) {
+                stderr.printf("OpenSubtitles backed: Failed to stat file, reason: %s", e.message);
+            }
         }
     }
 }
