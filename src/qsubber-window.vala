@@ -30,10 +30,15 @@ namespace QSubber {
         [GtkChild]
         private Gtk.Entry episodeEntry;
 
+        [GtkChild]
+        private Gtk.ListStore subtitlesList;
+
         public Window(Gtk.Application application) {
             GLib.Object(application: application);
 
             Application.get_default().current_file_changed.connect(current_file_changed);
+
+            Application.get_default().os.new_sublist.connect(sublist_updated);
         }
 
         public void current_file_changed(File* file) {
@@ -64,6 +69,22 @@ namespace QSubber {
             }
         }
 
+        public void sublist_updated(Variant subs) {
+            subtitlesList.clear();
+
+            VariantIter iter = subs.iterator();
+
+            Variant sub;
+            while (iter.next("v", out sub)) {
+                Gtk.TreeIter it;
+
+                subtitlesList.append(out it);
+                subtitlesList.set(it,
+                                  0, sub.lookup_value("SubFileName", VariantType.STRING).get_string(),
+                                  1, sub.lookup_value("SubSize", VariantType.STRING).get_string());
+            }
+        }
+
         [GtkCallback]
         public void openButton_clicked_cb() {
             Gtk.FileChooserDialog chooser = new Gtk.FileChooserDialog("Select Media File",
@@ -86,9 +107,12 @@ namespace QSubber {
 
         [GtkCallback]
         public void hashButton_clicked_cb() {
+            if (Application.get_default().current_file == null)
+                return;
+
             VariantBuilder search = new VariantBuilder(VariantType.ARRAY);
 
-            search.add("{ss}", "moviehash", "hash");
+            search.add("{ss}", "moviehash", Utils.calculate_hash_for_file(Application.get_default().current_file));
 
             Application.get_default().os.search(search);
         }
