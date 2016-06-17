@@ -33,6 +33,9 @@ namespace QSubber {
         [GtkChild]
         private Gtk.ListStore subtitlesList;
 
+        [GtkChild]
+        private Gtk.TreeSelection selectedSubtitle;
+
         public Window(Gtk.Application application) {
             GLib.Object(application: application);
 
@@ -82,7 +85,7 @@ namespace QSubber {
                 subtitlesList.set(it,
                                   0, sub.lookup_value("SubFileName", VariantType.STRING).get_string(),
                                   1, Utils.pretty_print_size(sub.lookup_value("SubSize", VariantType.STRING).get_string()),
-                                  2, sub);
+                                  2, sub.lookup_value("SubDownloadLink", VariantType.STRING).get_string());
             }
         }
 
@@ -103,7 +106,16 @@ namespace QSubber {
 
         [GtkCallback]
         public void downloadButton_clicked_cb() {
-        
+            Gtk.TreeModel _;
+            Gtk.TreeIter iter;
+
+            if (selectedSubtitle.get_selected(out _, out iter)) {
+                string url;
+
+                subtitlesList.get(iter, 2, out url);
+
+                Application.get_default().os.download(url);
+            }
         }
 
         [GtkCallback]

@@ -28,6 +28,28 @@ namespace QSubber {
             session.user_agent = USER_AGENT;
         }
 
+        protected File? get_subtitle_file() {
+            File media_file = Application.get_default().current_file;
+
+            if (media_file == null)
+                return null;
+
+            string filename = media_file.get_basename();
+            string srt_filename;
+
+            try {
+                Regex exp = new Regex("\\.([a-zA-Z0-9]{3,4})$");
+
+                srt_filename = exp.replace(filename, filename.length, 0, ".srt");
+            } catch (RegexError e) {
+                stderr.printf("Failed to build Regex\n");
+
+                return null;
+            }
+
+            return media_file.get_parent().get_child(srt_filename);
+        }
+
         public bool is_logged_in() {
             return token != null;
         }
@@ -69,6 +91,12 @@ namespace QSubber {
             }
         }
 
+        public void download(string url) {
+            Soup.Message msg = new Soup.Message("GET", url);
+
+            session.queue_message(msg, download_cb);
+        }
+
         public void login_cb(Soup.Session _, Soup.Message msg) {
             try {
                 Variant resp = Soup.XMLRPC.parse_response((string) msg.response_body.flatten().data, -1, null);
@@ -96,6 +124,27 @@ namespace QSubber {
                 }
             } catch (Error e) {
                 stderr.printf("OpenSubtitles backend: Failed to parse XML response from server... Error: %s\n", e.message);
+            }
+        }
+
+        public void download_cb(Soup.Session _, Soup.Message msg) {
+            try {
+                FileIOStream tmpstream;
+
+                File tmpfile = File.new_tmp(null, out tmpstream);
+
+                OutputStream os = tmpstream.output_stream;
+
+                os.write(msg.response_body.data);
+                os.close();
+
+                FileOutputStream srtstream = get_subtitle_file().replace(null, false, 0);
+
+                ConverterOutputStream convstream = new ConverterOutputStream(srtstream, new ZlibDecompressor(ZlibCompressorFormat.GZIP));
+
+                convstream.splice(tmpfile.read(), OutputStreamSpliceFlags.CLOSE_SOURCE | OutputStreamSpliceFlags.CLOSE_TARGET);
+            } catch (Error e) {
+                stderr.printf("OpenSubtitles backend: Failed to open file, reason: %s\n", e.message);
             }
         }
     }
