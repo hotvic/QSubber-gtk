@@ -46,5 +46,16 @@ namespace QSubber {
 
             return null;
         }
+
+        public string pretty_print_size(string byte_size) {
+            double size = double.parse(byte_size);
+
+            if (size >= 1024 && size <= Math.pow(1024, 2))
+                return "%f kB".printf(size / 1024);
+            else if (size >= Math.pow(1024, 2) && size <= Math.pow(1024, 3))
+                return "%f MB".printf(size / Math.pow(1024, 2));
+
+            return "%f B".printf(size);
+        }
     }
 }

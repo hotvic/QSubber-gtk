@@ -40,10 +40,14 @@ namespace QSubber {
             return (Application) GLib.Application.get_default();
         }
 
-        public override void activate() {
-            create_main_window();
+        public override void startup() {
+            base.startup();
 
             os.login();
+        }
+
+        public override void activate() {
+            create_main_window();
         }
 
         public override void open(File[] files, string hint) {
@@ -62,6 +66,7 @@ namespace QSubber {
             }
 
             window.show_all();
+            window.present();
         }
     }
 }

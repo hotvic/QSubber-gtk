@@ -81,7 +81,8 @@ namespace QSubber {
                 subtitlesList.append(out it);
                 subtitlesList.set(it,
                                   0, sub.lookup_value("SubFileName", VariantType.STRING).get_string(),
-                                  1, sub.lookup_value("SubSize", VariantType.STRING).get_string());
+                                  1, Utils.pretty_print_size(sub.lookup_value("SubSize", VariantType.STRING).get_string()),
+                                  2, sub);
             }
         }
 
