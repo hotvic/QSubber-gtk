@@ -65,10 +65,14 @@ namespace QSubber {
             try {
                 Soup.Message msg = Soup.XMLRPC.message_new(API_ENDPOINT, "LogIn", args.end());
 
+                append_dot_to_log(msg);
+
                 session.queue_message(msg, login_cb);
             } catch (Error e) {
                 stderr.printf("OpenSubtitles backend: Failed to build message for request... Error: %s\n", e.message);
             }
+
+            get_log_dlg().popup("Logging in...");
         }
 
         public void search(VariantBuilder terms) {
@@ -85,7 +89,11 @@ namespace QSubber {
             try {
                 Soup.Message msg = Soup.XMLRPC.message_new(API_ENDPOINT, "SearchSubtitles", args.end());
 
+                append_dot_to_log(msg);
+
                 session.queue_message(msg, search_cb);
+
+                get_log_dlg().popup("Searching...");
             } catch (Error e) {
                 stderr.printf("OpenSubtitles backend: Failed to build message for request... Error: %s\n", e.message);
             }
@@ -95,6 +103,8 @@ namespace QSubber {
             Soup.Message msg = new Soup.Message("GET", url);
 
             session.queue_message(msg, download_cb);
+
+            get_log_dlg().popup("Downloading...");
         }
 
         public void login_cb(Soup.Session _, Soup.Message msg) {
@@ -104,7 +114,7 @@ namespace QSubber {
                 if (resp.lookup_value("status", VariantType.STRING).get_string() == "200 OK") {
                     token = resp.lookup_value("token", VariantType.STRING).get_string();
 
-                    message("log", "Logded in!!!");
+                    get_log_dlg().done();
 
                     stdout.printf("Logged in! token: %s\n", token);
                 }
@@ -121,6 +131,8 @@ namespace QSubber {
                     Variant subs = resp.lookup_value("data", VariantType.ARRAY);
 
                     new_sublist(subs);
+
+                    get_log_dlg().done();
                 }
             } catch (Error e) {
                 stderr.printf("OpenSubtitles backend: Failed to parse XML response from server... Error: %s\n", e.message);
@@ -128,6 +140,8 @@ namespace QSubber {
         }
 
         public void download_cb(Soup.Session _, Soup.Message msg) {
+            get_log_dlg().done();
+
             try {
                 FileIOStream tmpstream;
 

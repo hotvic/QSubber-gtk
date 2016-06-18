@@ -4,9 +4,9 @@
   <requires lib="gtk+" version="3.20"/>
   <object class="GtkListStore" id="subtitlesList">
     <columns>
-      <!-- column-name filename -->
+      <!-- column-name displayFilename -->
       <column type="gchararray"/>
-      <!-- column-name size -->
+      <!-- column-name displaySize -->
       <column type="gchararray"/>
       <!-- column-name url -->
       <column type="gchararray"/>
@@ -15,9 +15,24 @@
   <template class="QSubberWindow" parent="GtkApplicationWindow">
     <property name="width_request">500</property>
     <property name="height_request">500</property>
-    <property name="can_focus">False</property>
     <property name="icon_name">accessories-text-editor</property>
     <property name="show_menubar">False</property>
+    <child type="titlebar">
+      <object class="GtkHeaderBar" id="headerbar">
+        <property name="visible">True</property>
+        <property name="title">QSubber</property>
+        <property name="subtitle">Search Subtitles</property>
+        <property name="show_close_button">True</property>
+        <child>
+          <object class="GtkButton" id="openButton">
+            <property name="label">Open</property>
+            <property name="can_focus">False</property>
+            <property name="receives_default">False</property>
+            <signal name="clicked" handler="openButton_clicked_cb" swapped="no"/>
+          </object>
+        </child>
+      </object>
+    </child>
     <child>
       <object class="GtkBox">
         <property name="visible">True</property>
@@ -273,23 +288,6 @@
             <property name="fill">True</property>
             <property name="position">1</property>
           </packing>
-        </child>
-      </object>
-    </child>
-    <child type="titlebar">
-      <object class="GtkHeaderBar" id="headerbar">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="title">QSubber</property>
-        <property name="subtitle">Search Subtitles</property>
-        <property name="show_close_button">True</property>
-        <child>
-          <object class="GtkButton" id="openButton">
-            <property name="label">Open</property>
-            <property name="can_focus">False</property>
-            <property name="receives_default">False</property>
-            <signal name="clicked" handler="openButton_clicked_cb" swapped="no"/>
-          </object>
         </child>
       </object>
     </child>

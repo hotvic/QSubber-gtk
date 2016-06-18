@@ -9,8 +9,8 @@ def build(bld):
             features         = 'c cprogram glib2',
             use              = 'M GTK3 SOUP',
             packages         = 'gtk+-3.0 libsoup-2.4',
-            source           = 'main.vala config.vala qsubber-utils.vala qsubber-application.vala qsubber-window.vala qsubber-opensubtitles.vala org.imvictor.qsubber.gresource.xml',
+            source           = 'main.vala config.vala qsubber.vala qsubber-utils.vala qsubber-application.vala qsubber-window.vala qsubber-log-dialog.vala qsubber-opensubtitles.vala resources/qsubber.gresource.xml',
             target           = 'qsubber',
-            vala_resources   = 'org.imvictor.qsubber.gresource.xml',
+            vala_resources   = 'resources/qsubber.gresource.xml',
             vala_target_glib = '2.38'
     )

@@ -21,7 +21,19 @@ namespace QSubber {
     class Application : Gtk.Application {
         private File _current_file = null;
 
+        /* Windows */
+        private Window _main_window = null;
+        private LogDialog _log_dialog = null;
+
         public OpenSubtitles os = null;
+
+        public Window main_window {
+            get { return _main_window; }
+        }
+
+        public LogDialog log_dialog {
+            get { return _log_dialog; }
+        }
 
         public File current_file {
             get { return _current_file; }
@@ -43,30 +55,30 @@ namespace QSubber {
         public override void startup() {
             base.startup();
 
+            create_windows();
             os.login();
         }
 
         public override void activate() {
-            create_main_window();
+            _main_window.show_all();
+            _main_window.present();
         }
 
         public override void open(File[] files, string hint) {
-            create_main_window();
+            _main_window.show_all();
+            _main_window.present();
 
             current_file = files[0];
         }
 
-        public void create_main_window() {
-            Window window = null;
-
-            window = (Window) get_active_window();
-
-            if (window == null) {
-                window = new Window(this);
+        public void create_windows() {
+            if (_main_window == null) {
+                _main_window = new Window(this);
             }
 
-            window.show_all();
-            window.present();
+            if (_log_dialog == null) {
+                _log_dialog = new LogDialog(_main_window);
+            }
         }
     }
 }
