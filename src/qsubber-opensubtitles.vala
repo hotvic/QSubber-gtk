@@ -117,6 +117,8 @@ namespace QSubber {
                     get_log_dlg().done();
 
                     stdout.printf("Logged in! token: %s\n", token);
+                } else {
+                    get_log_dlg().append_to_log("Failed: %s".printf(resp.lookup_value("status", VariantType.STRING).get_string()));
                 }
             } catch (Error e) {
                 stderr.printf("OpenSubtitles backend: Failed to parse XML response from server... Error: %s\n", e.message);
