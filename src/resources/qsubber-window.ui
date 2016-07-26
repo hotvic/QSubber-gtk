@@ -2,6 +2,11 @@
 <!-- Generated with glade 3.20.0 -->
 <interface>
   <requires lib="gtk+" version="3.20"/>
+  <object class="GtkImage" id="lang_image">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="icon_name">insert-text</property>
+  </object>
   <object class="GtkListStore" id="subtitlesList">
     <columns>
       <!-- column-name displayFilename -->
@@ -12,27 +17,452 @@
       <column type="gchararray"/>
     </columns>
   </object>
-  <template class="QSubberWindow" parent="GtkApplicationWindow">
-    <property name="width_request">500</property>
-    <property name="height_request">500</property>
-    <property name="icon_name">accessories-text-editor</property>
-    <property name="show_menubar">False</property>
-    <child type="titlebar">
-      <object class="GtkHeaderBar" id="headerbar">
+  <object class="GtkPopoverMenu" id="lang_popover">
+    <child>
+      <object class="GtkScrolledWindow">
         <property name="visible">True</property>
-        <property name="title">QSubber</property>
-        <property name="subtitle">Search Subtitles</property>
-        <property name="show_close_button">True</property>
+        <property name="min_content_height">350</property>
+        <property name="min_content_width">200</property>
         <child>
-          <object class="GtkButton" id="openButton">
-            <property name="label">Open</property>
-            <property name="can_focus">False</property>
-            <property name="receives_default">False</property>
-            <signal name="clicked" handler="openButton_clicked_cb" swapped="no"/>
+          <object class="GtkBox">
+            <property name="visible">True</property>
+            <property name="margin">10</property>
+            <property name="orientation">vertical</property>
+            <child>
+              <object class="GtkModelButton">
+                <property name="visible">True</property>
+                <property name="action_name">win.search-lang</property>
+                <property name="action_target">'alb'</property>
+                <property name="text" translatable="yes">Albanian</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkModelButton">
+                <property name="visible">True</property>
+                <property name="action_name">win.search-lang</property>
+                <property name="action_target">'ara'</property>
+                <property name="text" translatable="yes">Arabic</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkModelButton">
+                <property name="visible">True</property>
+                <property name="action_name">win.search-lang</property>
+                <property name="action_target">'ast'</property>
+                <property name="text" translatable="yes">Asturian</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkModelButton">
+                <property name="visible">True</property>
+                <property name="action_name">win.search-lang</property>
+                <property name="action_target">'baq'</property>
+                <property name="text" translatable="yes">Basque</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkModelButton">
+                <property name="visible">True</property>
+                <property name="action_name">win.search-lang</property>
+                <property name="action_target">'bre'</property>
+                <property name="text" translatable="yes">Breton</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkModelButton">
+                <property name="visible">True</property>
+                <property name="action_name">win.search-lang</property>
+                <property name="action_target">'bul'</property>
+                <property name="text" translatable="yes">Bulgarian</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkModelButton">
+                <property name="visible">True</property>
+                <property name="action_name">win.search-lang</property>
+                <property name="action_target">'cat'</property>
+                <property name="text" translatable="yes">Catalan</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkModelButton">
+                <property name="visible">True</property>
+                <property name="action_name">win.search-lang</property>
+                <property name="action_target">'chi'</property>
+                <property name="text" translatable="yes">Chinese (simplified)</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkModelButton">
+                <property name="visible">True</property>
+                <property name="action_name">win.search-lang</property>
+                <property name="action_target">'cze'</property>
+                <property name="text" translatable="yes">Czech</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkModelButton">
+                <property name="visible">True</property>
+                <property name="action_name">win.search-lang</property>
+                <property name="action_target">'dan'</property>
+                <property name="text" translatable="yes">Danish</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkModelButton">
+                <property name="visible">True</property>
+                <property name="action_name">win.search-lang</property>
+                <property name="action_target">'dut'</property>
+                <property name="text" translatable="yes">Dutch</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkModelButton">
+                <property name="visible">True</property>
+                <property name="action_name">win.search-lang</property>
+                <property name="action_target">'eng'</property>
+                <property name="text" translatable="yes">English</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkModelButton">
+                <property name="visible">True</property>
+                <property name="action_name">win.search-lang</property>
+                <property name="action_target">'epo'</property>
+                <property name="text" translatable="yes">Esperanto</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkModelButton">
+                <property name="visible">True</property>
+                <property name="action_name">win.search-lang</property>
+                <property name="action_target">'est'</property>
+                <property name="text" translatable="yes">Estonian</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkModelButton">
+                <property name="visible">True</property>
+                <property name="action_name">win.search-lang</property>
+                <property name="action_target">'fin'</property>
+                <property name="text" translatable="yes">Finnish</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkModelButton">
+                <property name="visible">True</property>
+                <property name="action_name">win.search-lang</property>
+                <property name="action_target">'fre'</property>
+                <property name="text" translatable="yes">French</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkModelButton">
+                <property name="visible">True</property>
+                <property name="action_name">win.search-lang</property>
+                <property name="action_target">'geo'</property>
+                <property name="text" translatable="yes">Georgian</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkModelButton">
+                <property name="visible">True</property>
+                <property name="action_name">win.search-lang</property>
+                <property name="action_target">'ger'</property>
+                <property name="text" translatable="yes">German</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkModelButton">
+                <property name="visible">True</property>
+                <property name="action_name">win.search-lang</property>
+                <property name="action_target">'glg'</property>
+                <property name="text" translatable="yes">Galician</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkModelButton">
+                <property name="visible">True</property>
+                <property name="action_name">win.search-lang</property>
+                <property name="action_target">'ell'</property>
+                <property name="text" translatable="yes">Greek</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkModelButton">
+                <property name="visible">True</property>
+                <property name="action_name">win.search-lang</property>
+                <property name="action_target">'heb'</property>
+                <property name="text" translatable="yes">Hebrew</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkModelButton">
+                <property name="visible">True</property>
+                <property name="action_name">win.search-lang</property>
+                <property name="action_target">'hin'</property>
+                <property name="text" translatable="yes">Hindi</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkModelButton">
+                <property name="visible">True</property>
+                <property name="action_name">win.search-lang</property>
+                <property name="action_target">'hrv'</property>
+                <property name="text" translatable="yes">Croatian</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkModelButton">
+                <property name="visible">True</property>
+                <property name="action_name">win.search-lang</property>
+                <property name="action_target">'hun'</property>
+                <property name="text" translatable="yes">Hungarian</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkModelButton">
+                <property name="visible">True</property>
+                <property name="action_name">win.search-lang</property>
+                <property name="action_target">'ice'</property>
+                <property name="text" translatable="yes">Icelandic</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkModelButton">
+                <property name="visible">True</property>
+                <property name="action_name">win.search-lang</property>
+                <property name="action_target">'ind'</property>
+                <property name="text" translatable="yes">Indonesian</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkModelButton">
+                <property name="visible">True</property>
+                <property name="action_name">win.search-lang</property>
+                <property name="action_target">'ita'</property>
+                <property name="text" translatable="yes">Italian</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkModelButton">
+                <property name="visible">True</property>
+                <property name="action_name">win.search-lang</property>
+                <property name="action_target">'jpn'</property>
+                <property name="text" translatable="yes">Japanese</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkModelButton">
+                <property name="visible">True</property>
+                <property name="action_name">win.search-lang</property>
+                <property name="action_target">'khm'</property>
+                <property name="text" translatable="yes">Khmer</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkModelButton">
+                <property name="visible">True</property>
+                <property name="action_name">win.search-lang</property>
+                <property name="action_target">'kor'</property>
+                <property name="text" translatable="yes">Korean</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkModelButton">
+                <property name="visible">True</property>
+                <property name="action_name">win.search-lang</property>
+                <property name="action_target">'mac'</property>
+                <property name="text" translatable="yes">Macedonian</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkModelButton">
+                <property name="visible">True</property>
+                <property name="action_name">win.search-lang</property>
+                <property name="action_target">'may'</property>
+                <property name="text" translatable="yes">Malay</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkModelButton">
+                <property name="visible">True</property>
+                <property name="action_name">win.search-lang</property>
+                <property name="action_target">'nor'</property>
+                <property name="text" translatable="yes">Norwegian</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkModelButton">
+                <property name="visible">True</property>
+                <property name="action_name">win.search-lang</property>
+                <property name="action_target">'oci'</property>
+                <property name="text" translatable="yes">Occitan</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkModelButton">
+                <property name="visible">True</property>
+                <property name="action_name">win.search-lang</property>
+                <property name="action_target">'per'</property>
+                <property name="text" translatable="yes">Persian</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkModelButton">
+                <property name="visible">True</property>
+                <property name="action_name">win.search-lang</property>
+                <property name="action_target">'pol'</property>
+                <property name="text" translatable="yes">Polish</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkModelButton">
+                <property name="visible">True</property>
+                <property name="action_name">win.search-lang</property>
+                <property name="action_target">'por'</property>
+                <property name="text" translatable="yes">Portuguese</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkModelButton">
+                <property name="visible">True</property>
+                <property name="action_name">win.search-lang</property>
+                <property name="action_target">'rus'</property>
+                <property name="text" translatable="yes">Russian</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkModelButton">
+                <property name="visible">True</property>
+                <property name="action_name">win.search-lang</property>
+                <property name="action_target">'scc'</property>
+                <property name="text" translatable="yes">Serbian</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkModelButton">
+                <property name="visible">True</property>
+                <property name="action_name">win.search-lang</property>
+                <property name="action_target">'sin'</property>
+                <property name="text" translatable="yes">Sinhalese</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkModelButton">
+                <property name="visible">True</property>
+                <property name="action_name">win.search-lang</property>
+                <property name="action_target">'slo'</property>
+                <property name="text" translatable="yes">Slovak</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkModelButton">
+                <property name="visible">True</property>
+                <property name="action_name">win.search-lang</property>
+                <property name="action_target">'slv'</property>
+                <property name="text" translatable="yes">Slovenian</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkModelButton">
+                <property name="visible">True</property>
+                <property name="action_name">win.search-lang</property>
+                <property name="action_target">'spa'</property>
+                <property name="text" translatable="yes">Spanish</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkModelButton">
+                <property name="visible">True</property>
+                <property name="action_name">win.search-lang</property>
+                <property name="action_target">'swe'</property>
+                <property name="text" translatable="yes">Swedish</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkModelButton">
+                <property name="visible">True</property>
+                <property name="action_name">win.search-lang</property>
+                <property name="action_target">'tgl'</property>
+                <property name="text" translatable="yes">Tagalog</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkModelButton">
+                <property name="visible">True</property>
+                <property name="action_name">win.search-lang</property>
+                <property name="action_target">'tha'</property>
+                <property name="text" translatable="yes">Thai</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkModelButton">
+                <property name="visible">True</property>
+                <property name="action_name">win.search-lang</property>
+                <property name="action_target">'tur'</property>
+                <property name="text" translatable="yes">Turkish</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkModelButton">
+                <property name="visible">True</property>
+                <property name="action_name">win.search-lang</property>
+                <property name="action_target">'ukr'</property>
+                <property name="text" translatable="yes">Ukrainian</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkModelButton">
+                <property name="visible">True</property>
+                <property name="action_name">win.search-lang</property>
+                <property name="action_target">'uzb'</property>
+                <property name="text" translatable="yes">Uzbek</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkModelButton">
+                <property name="visible">True</property>
+                <property name="action_name">win.search-lang</property>
+                <property name="action_target">'vie'</property>
+                <property name="text" translatable="yes">Vietnamese</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkModelButton">
+                <property name="visible">True</property>
+                <property name="action_name">win.search-lang</property>
+                <property name="action_target">'rum'</property>
+                <property name="text" translatable="yes">Romanian</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkModelButton">
+                <property name="visible">True</property>
+                <property name="action_name">win.search-lang</property>
+                <property name="action_target">'pob'</property>
+                <property name="text" translatable="yes">Portuguese (BR)</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkModelButton">
+                <property name="visible">True</property>
+                <property name="action_name">win.search-lang</property>
+                <property name="action_target">'zht'</property>
+                <property name="text" translatable="yes">Chinese (traditional)</property>
+              </object>
+            </child>
           </object>
         </child>
       </object>
     </child>
+  </object>
+  <template class="QSubberWindow" parent="GtkApplicationWindow">
+    <property name="width_request">500</property>
+    <property name="height_request">500</property>
+    <property name="can_focus">False</property>
+    <property name="icon_name">accessories-text-editor</property>
+    <property name="show_menubar">False</property>
     <child>
       <object class="GtkBox">
         <property name="visible">True</property>
@@ -148,6 +578,7 @@
                 <property name="headers_clickable">False</property>
                 <property name="enable_search">False</property>
                 <property name="show_expanders">False</property>
+                <signal name="row-activated" handler="subtitlesTree_row_activated_cb" swapped="no"/>
                 <child internal-child="selection">
                   <object class="GtkTreeSelection" id="selectedSubtitle"/>
                 </child>
@@ -286,6 +717,35 @@
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+    <child type="titlebar">
+      <object class="GtkHeaderBar" id="headerbar">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="title">QSubber</property>
+        <property name="subtitle">Search Subtitles</property>
+        <property name="show_close_button">True</property>
+        <child>
+          <object class="GtkButton" id="openButton">
+            <property name="label">Open</property>
+            <property name="can_focus">False</property>
+            <property name="receives_default">False</property>
+            <signal name="clicked" handler="openButton_clicked_cb" swapped="no"/>
+          </object>
+        </child>
+        <child>
+          <object class="GtkMenuButton" id="langButton">
+            <property name="can_focus">False</property>
+            <property name="receives_default">False</property>
+            <property name="image">lang_image</property>
+            <property name="popover">lang_popover</property>
+          </object>
+          <packing>
+            <property name="pack_type">end</property>
             <property name="position">1</property>
           </packing>
         </child>

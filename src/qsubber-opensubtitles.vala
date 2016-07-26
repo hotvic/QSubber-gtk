@@ -79,7 +79,7 @@ namespace QSubber {
             if (!is_logged_in())
                 return;
 
-            terms.add("{sv}", "sublanguageid", new Variant("s", "pob"));
+            terms.add("{sv}", "sublanguageid", new Variant("s", get_app().main_window.selected_lang));
 
             VariantBuilder args = new VariantBuilder(VariantType.TUPLE);
 

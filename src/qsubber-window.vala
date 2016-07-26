@@ -36,12 +36,19 @@ namespace QSubber {
         [GtkChild]
         private Gtk.TreeSelection selectedSubtitle;
 
+        public string selected_lang {
+            get { return this.get_action_state("search-lang").get_string(); }
+        }
+
         public Window(Gtk.Application application) {
             GLib.Object(application: application);
 
             Application.get_default().current_file_changed.connect(current_file_changed);
 
             Application.get_default().os.new_sublist.connect(sublist_updated);
+
+            SimpleAction act_set_lang = new SimpleAction.stateful("search-lang", VariantType.STRING, new Variant.string("pob"));
+            this.add_action(act_set_lang);
         }
 
         public void current_file_changed(File* file) {
@@ -92,7 +99,7 @@ namespace QSubber {
         [GtkCallback]
         public void openButton_clicked_cb() {
             Gtk.FileChooserDialog chooser = new Gtk.FileChooserDialog("Select Media File",
-                                                                      this, 
+                                                                      this,
                                                                       Gtk.FileChooserAction.OPEN,
                                                                       "_Cancel", Gtk.ResponseType.CANCEL,
                                                                       "_Open", Gtk.ResponseType.ACCEPT);
@@ -176,6 +183,11 @@ namespace QSubber {
             } catch (Error e) {
                 stderr.printf("OpenSubtitles backed: Failed to stat file, reason: %s", e.message);
             }
+        }
+
+        [GtkCallback]
+        public void subtitlesTree_row_activated_cb() {
+            downloadButton_clicked_cb();
         }
     }
 }
