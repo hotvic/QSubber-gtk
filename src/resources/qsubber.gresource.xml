@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<gresources>
-    <gresource prefix="/org/imvictor/qsubber">
-        <file preprocess="xml-stripblanks" compressed="true">gtk/menus.ui</file>
-        <file preprocess="xml-stripblanks" compressed="true">qsubber-window.ui</file>
-        <file preprocess="xml-stripblanks" compressed="true">qsubber-log-dialog.ui</file>
-    </gresource>
-</gresources>
