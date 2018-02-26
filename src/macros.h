@@ -21,3 +21,13 @@
   GError* signal_error = g_error_new(domain, code, message, __VA_ARGS__); \
   g_signal_emit_by_name(instance, "error", signal_error); \
 }
+
+#define settings_set_option(root, array, path, type, opt) \
+{ \
+  array = json_node_get_array(json_path_match(path, root)); \
+  if (json_array_get_length(array) > 0) { \
+    JsonNode *value; \
+    value = json_array_get_element(array, 0); \
+    opt = json_node_get_ ## type (value);\
+  }\
+}
