@@ -36,9 +36,9 @@ void qsubber_opensubtitles_class_init(QSubberOpensubtitlesClass *class) {
   g_signal_new("error", QSUBBER_TYPE_OPENSUBTITLES,
     G_SIGNAL_RUN_FIRST, 0, NULL, NULL, NULL, G_TYPE_NONE, 1, G_TYPE_POINTER);
   g_signal_new("new-sublist", QSUBBER_TYPE_OPENSUBTITLES,
-    G_SIGNAL_RUN_LAST, 0, NULL, NULL, NULL, G_TYPE_NONE, 1, G_TYPE_POINTER);
+    G_SIGNAL_RUN_FIRST, 0, NULL, NULL, NULL, G_TYPE_NONE, 1, G_TYPE_POINTER);
   g_signal_new("progress", QSUBBER_TYPE_OPENSUBTITLES,
-    G_SIGNAL_RUN_LAST, 0, NULL, NULL, NULL, G_TYPE_NONE, 2, G_TYPE_STRING, G_TYPE_INT);
+    G_SIGNAL_RUN_FIRST, 0, NULL, NULL, NULL, G_TYPE_NONE, 2, G_TYPE_STRING, G_TYPE_INT);
 }
 
 QSubberOpensubtitles *qsubber_opensubtitles_new() {

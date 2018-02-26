@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
-    <gresource prefix="/org/vaurelios/qsubber">
-        <file preprocess="xml-stripblanks" compressed="true">gtk/menus.ui</file>
-        <file preprocess="xml-stripblanks" compressed="true">window.ui</file>
-        <file preprocess="xml-stripblanks" compressed="true">progress-log.ui</file>
-    </gresource>
+  <gresource prefix="/org/vaurelios/qsubber">
+    <file preprocess="xml-stripblanks" compressed="true">gtk/menus.ui</file>
+    <file preprocess="xml-stripblanks" compressed="true">window.ui</file>
+    <file preprocess="xml-stripblanks" compressed="true">progress-log.ui</file>
+    <file compressed="true">settings.json</file>
+  </gresource>
 </gresources>
+

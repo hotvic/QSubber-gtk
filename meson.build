@@ -2,7 +2,8 @@ project('qsubber-gtk','c', version: '1.0.0', meson_version: '>=0.36.0')
  
 top_inc = include_directories('.')
 
-deps = [ dependency('gtk+-3.0', version : '>=3.22'), dependency('glib-2.0'), dependency('libsoup-2.4') ]
+deps = [ dependency('gtk+-3.0', version: '>=3.22'), dependency('glib-2.0'), dependency('libsoup-2.4'),
+  dependency('json-glib-1.0', version: '>=0.12') ]
 
 datadir = join_paths([ get_option('prefix'), get_option('datadir') ])
 pkgdatadir = join_paths([ get_option('prefix'), get_option('datadir'), 'qsubber-gtk' ])

@@ -4,6 +4,7 @@
 #include "application.h"
 #include "opensubtitles.h"
 #include "progress-log.h"
+#include "settings.h"
 #include "utils.h"
 
 #include <inttypes.h>
@@ -11,8 +12,11 @@
 
 struct _QSubberWindow {
   GtkApplicationWindow parent_instance;
+
   QSubberWindowPrivate *priv;
   QSubberApplication *app;
+  QSubberOptions *options;
+  QSubberSettings *settings;
 
   QSubberOpensubtitles *rpc;
 };
@@ -20,6 +24,8 @@ struct _QSubberWindow {
 G_DEFINE_TYPE_WITH_PRIVATE(QSubberWindow, qsubber_window, GTK_TYPE_APPLICATION_WINDOW)
 
 static void qsubber_window_current_file_changed(QSubberApplication *app, GFile *file, QSubberWindow *win);
+static void qsubber_window_options_changed(QSubberSettings *settings, QSubberOptions *options, QSubberWindow *win);
+static void qsubber_window_settings_error(QSubberSettings *settings, GError *err, QSubberWindow *win);
 static void qsubber_window_sublist_changed(QSubberOpensubtitles *os, GVariant *sublist, QSubberWindow *win);
 static void qsubber_window_rpc_progress(QSubberOpensubtitles *os, const char *operation, int val, QSubberWindow *win);
 static void qsubber_window_rpc_error(QSubberOpensubtitles *os, GError *err, QSubberWindow *win);
@@ -37,12 +43,15 @@ static void qsubber_window_init(QSubberWindow *win) {
 
   win->priv = qsubber_window_get_instance_private(win);
   win->app = qsubber_application_get_default();
+  win->settings = qsubber_settings_new();
 
   win->rpc = qsubber_opensubtitles_new();
 
   gtk_widget_init_template(GTK_WIDGET(win));
 
   g_signal_connect(win->app, "current-file-changed", G_CALLBACK(qsubber_window_current_file_changed), win);
+  g_signal_connect(win->settings, "changed", G_CALLBACK(qsubber_window_options_changed), win);
+  g_signal_connect(win->settings, "error", G_CALLBACK(qsubber_window_settings_error), win);
   g_signal_connect(win->rpc, "new-sublist", G_CALLBACK(qsubber_window_sublist_changed), win);
   g_signal_connect(win->rpc, "progress", G_CALLBACK(qsubber_window_rpc_progress), win);
   g_signal_connect(win->rpc, "error", G_CALLBACK(qsubber_window_rpc_error), win);
@@ -54,7 +63,7 @@ static void qsubber_window_init(QSubberWindow *win) {
   g_signal_connect(win->priv->name_button, "clicked", G_CALLBACK(qsubber_window_name_button_clicked), win);
   g_signal_connect(win->priv->hash_size_button, "clicked", G_CALLBACK(qsubber_window_hash_size_button_clicked), win);
 
-  qsubber_opensubtitles_login(win->rpc, "", ""); // TODO: support login
+  qsubber_settings_load_from_resource(win->settings, "/org/vaurelios/qsubber/settings.json");
 }
 
 static void qsubber_window_class_init(QSubberWindowClass *class) {
@@ -80,22 +89,14 @@ QSubberWindow *qsubber_window_new(QSubberApplication *application) {
 }
 
 static void qsubber_window_current_file_changed(QSubberApplication *app, GFile *file, QSubberWindow *win) {
-  GArray *exps = g_array_new(TRUE, TRUE, sizeof(gpointer));
-  GRegex *exp;
-
-  exp = g_regex_new("([a-zA-Z0-9. ]+)[ -_.]+[Ss]([0-9]{0,2})[Ee]([0-9]{0,2})", 0, 0, NULL);
-  g_array_append_val(exps, exp);
-  exp = g_regex_new("([a-zA-Z0-9. ]+)[ -_.]+([0-9]+)[Xx]([0-9]+)", 0, 0, NULL);
-  g_array_append_val(exps, exp);
-  exp = g_regex_new("([a-zA-Z0-9. ]+)[ -_.]+([0-9]{1,2})([0-9]{2})", 0, 0, NULL);
-  g_array_append_val(exps, exp);
-
   gtk_entry_set_text(win->priv->media_entry, g_file_get_path(file));
 
-  for (int i = 0; g_array_index(exps, gpointer, i) != 0; i++) {
+  for (int i = 0; i < json_array_get_length(win->options->files_patterns); i++) {
+    GRegex *exp;
     char* filename = g_file_get_basename(file);
 
-    exp = g_array_index(exps, gpointer, i);
+    exp = g_regex_new(
+      json_node_get_string(json_array_get_element(win->options->files_patterns, i)) , 0, 0, NULL);
 
     if (g_regex_match(exp, filename, 0, 0)) {
       char **data = g_regex_split(exp, filename, 0);
@@ -113,6 +114,18 @@ static void qsubber_window_current_file_changed(QSubberApplication *app, GFile *
   gtk_widget_set_sensitive(GTK_WIDGET(win->priv->size_button), TRUE);
   gtk_widget_set_sensitive(GTK_WIDGET(win->priv->name_button), TRUE);
   gtk_widget_set_sensitive(GTK_WIDGET(win->priv->hash_size_button), TRUE);
+}
+
+static void qsubber_window_options_changed(QSubberSettings *settings, QSubberOptions *options, QSubberWindow *win) {
+  win->options = options;
+
+  qsubber_opensubtitles_login(win->rpc, options->auth_username, options->auth_password);
+}
+
+static void qsubber_window_settings_error(QSubberSettings *settings, GError *err, QSubberWindow *win) {
+  qsubber_progress_log_popup(win->priv->progress_log, g_strdup_printf("Error! (%d)", err->code), FALSE, FALSE);
+  qsubber_progress_log_set_description(win->priv->progress_log,
+                                       g_strdup_printf("Settings: %s", err->message));
 }
 
 static void qsubber_window_selected_subtitle_changed(GtkTreeSelection *selection, QSubberWindow *win) {
