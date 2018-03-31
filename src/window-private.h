@@ -13,6 +13,7 @@ struct _QSubberWindowPrivate {
   GtkTreeSelection *selected_subtitle;
 
   GtkListStore *subtitle_list;
+  GtkListStore *lang_list;
 
   GtkButton *open_button;
   GtkButton *download_button;
@@ -25,6 +26,8 @@ struct _QSubberWindowPrivate {
   GtkEntry *name_entry;
   GtkEntry *season_entry;
   GtkEntry *episode_entry;
+
+  GtkComboBox *lang_combo;
 
   QSubberProgressLog *progress_log;
 };

@@ -52,6 +52,10 @@ static void qsubber_settings_read(QSubberSettings *sets) {
   settings_set_option(json_parser_get_root(sets->parser), matches, sets->path, string, sets->options->auth_password);
   json_path_compile(sets->path, "$.files.patterns", NULL);
   settings_set_option(json_parser_get_root(sets->parser), matches, sets->path, array, sets->options->files_patterns);
+  json_path_compile(sets->path, "$.prevSelectedLang", NULL);
+  settings_set_option(json_parser_get_root(sets->parser), matches, sets->path, string, sets->options->prev_selected_lang);
+  json_path_compile(sets->path, "$.searchLangs", NULL);
+  settings_set_option(json_parser_get_root(sets->parser), matches, sets->path, array, sets->options->search_langs);
 
   g_signal_emit_by_name(sets, "changed", sets->options);
 }

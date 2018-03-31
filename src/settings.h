@@ -11,6 +11,12 @@ typedef struct {
 
   /* Files object: $.files */
   JsonArray *files_patterns;
+
+  /* Previous selected language: $.prevSelectedLang */
+  const char *prev_selected_lang;
+
+  /* Search langs array: $.searchLangs */
+  JsonArray *search_langs;
 } QSubberOptions;
 
 #define QSUBBER_TYPE_SETTINGS (qsubber_settings_get_type())

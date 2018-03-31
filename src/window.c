@@ -64,12 +64,26 @@ static void qsubber_window_init(QSubberWindow *win) {
   g_signal_connect(win->priv->hash_size_button, "clicked", G_CALLBACK(qsubber_window_hash_size_button_clicked), win);
 
   qsubber_settings_load_from_resource(win->settings, "/org/vaurelios/qsubber/settings.json");
+
+  for (int i = 0; i < json_array_get_length(win->options->search_langs); i++) {
+    GtkTreeIter it;
+    JsonObject *lang = json_array_get_object_element(win->options->search_langs, i);
+
+    gtk_list_store_append(win->priv->lang_list, &it);
+    gtk_list_store_set(win->priv->lang_list, &it,
+                       0, json_object_get_string_member(lang, "display"),
+                       1, json_object_get_string_member(lang, "code"),
+                       -1);
+
+    gtk_combo_box_set_active_id(win->priv->lang_combo, win->options->prev_selected_lang);
+  }
 }
 
 static void qsubber_window_class_init(QSubberWindowClass *class) {
   gtk_widget_class_set_template_from_resource(GTK_WIDGET_CLASS(class), "/org/vaurelios/qsubber/window.ui");
 
   gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(class), QSubberWindow, selected_subtitle);
+  gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(class), QSubberWindow, lang_list);
   gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(class), QSubberWindow, subtitle_list);
   gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(class), QSubberWindow, open_button);
   gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(class), QSubberWindow, download_button);
@@ -82,6 +96,7 @@ static void qsubber_window_class_init(QSubberWindowClass *class) {
   gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(class), QSubberWindow, season_entry);
   gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(class), QSubberWindow, episode_entry);
   gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(class), QSubberWindow, progress_log);
+  gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(class), QSubberWindow, lang_combo);
 }
 
 QSubberWindow *qsubber_window_new(QSubberApplication *application) {

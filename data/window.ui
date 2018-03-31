@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.20.2 -->
+<!-- Generated with glade 3.22.0 -->
 <interface>
   <requires lib="gtk+" version="3.20"/>
   <object class="GtkImage" id="lang_image">
@@ -7,14 +7,52 @@
     <property name="can_focus">False</property>
     <property name="icon_name">insert-text</property>
   </object>
+  <object class="GtkListStore" id="lang_list">
+    <columns>
+      <!-- column-name title -->
+      <column type="gchararray"/>
+      <!-- column-name code -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
   <object class="GtkPopoverMenu" id="lang_popover">
     <property name="can_focus">False</property>
     <child>
-      <object class="GtkScrolledWindow">
+      <object class="GtkBox">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="min_content_width">200</property>
-        <property name="min_content_height">350</property>
+        <child>
+          <object class="GtkLabel">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="xpad">10</property>
+            <property name="label" translatable="yes">Search Language:</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkComboBox" id="lang_combo">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="model">lang_list</property>
+            <property name="id_column">1</property>
+            <child>
+              <object class="GtkCellRendererText" id="lang_combo_renderer"/>
+              <attributes>
+                <attribute name="text">0</attribute>
+              </attributes>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
       </object>
       <packing>
         <property name="submenu">main</property>
@@ -149,11 +187,11 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="vexpand">True</property>
+                <property name="vscroll_policy">natural</property>
                 <property name="model">subtitle_list</property>
                 <property name="headers_clickable">False</property>
                 <property name="enable_search">False</property>
                 <property name="show_expanders">False</property>
-                <property name="vscroll-policy">natural</property>
                 <child internal-child="selection">
                   <object class="GtkTreeSelection" id="selected_subtitle"/>
                 </child>
@@ -341,4 +379,3 @@
     </child>
   </template>
 </interface>
-
